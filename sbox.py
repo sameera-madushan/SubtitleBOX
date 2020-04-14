@@ -7,6 +7,7 @@ import hashlib
 import requests
 import platform
 import sys
+from pathlib import Path
 
 
 banner = r'''
@@ -116,13 +117,14 @@ def request_subtitile():
         print("Oops!! Subtitle not found.")
         exit()
 
-request_subtitile()
-
 def download(data):
-    filename = file_path[:-4]
-    with open(filename + ".srt", 'wb') as f:
+    # from https://www.reddit.com/user/panzerex/
+    filename = Path(file_path).with_suffix('.srt')
+    with open(filename, 'wb') as f:
         f.write(data)
     f.close()
+
+request_subtitile()
 
 while True:
     try:
@@ -147,6 +149,4 @@ while True:
     except KeyboardInterrupt:
         print("\nProgramme Interrupted")
         break
-        
-
         
