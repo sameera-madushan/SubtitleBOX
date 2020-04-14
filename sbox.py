@@ -5,6 +5,11 @@ import re
 import time
 import hashlib
 import requests
+import sys
+import ctypes
+import clr 
+from System.Windows.Forms import OpenFileDialog
+
 
 banner = r'''
      ___     ___     ___   __  __  
@@ -21,17 +26,10 @@ time.sleep(1)
 
 # got this from https://stackoverflow.com/a/58861718/13276219
 def file_path():
-    import sys
-    import ctypes
-
     co_initialize = ctypes.windll.ole32.CoInitialize
     co_initialize(None)
 
-    import clr 
-
     clr.AddReference('System.Windows.Forms')
-
-    from System.Windows.Forms import OpenFileDialog
     
     file_dialog = OpenFileDialog()
     ret = file_dialog.ShowDialog()
