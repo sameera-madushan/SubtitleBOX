@@ -5,10 +5,8 @@ import re
 import time
 import hashlib
 import requests
+import platform
 import sys
-import ctypes
-import clr 
-from System.Windows.Forms import OpenFileDialog
 
 banner = r'''
      ___     ___     ___   __  __  
@@ -23,19 +21,53 @@ banner = r'''
 print(banner)
 time.sleep(1)
 
-# got this from https://stackoverflow.com/a/58861718/13276219
-def file_path():
-    co_initialize = ctypes.windll.ole32.CoInitialize
-    co_initialize(None)
+def tk_get_file_path():
+    try:
+        import tkinter as tk
+        from tkinter import filedialog
+    except:
+        print("Error: tkinter is not installed/available. Please install and try again")
+        sys.exit()
 
-    clr.AddReference('System.Windows.Forms')
-    
-    file_dialog = OpenFileDialog()
-    ret = file_dialog.ShowDialog()
-    if ret != 1:
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename()
+
+    try:
+        with open(file_path, 'r') as f:
+            pass
+    except:
         print("Cancelled")
         sys.exit()
-    return file_dialog.FileName
+
+    return file_path
+
+# got this from https://stackoverflow.com/a/58861718/13276219
+def file_path():
+  
+    # Get operating system
+    operating_system = platform.system()
+
+    if operating_system == 'Windows':  # Windows, use default
+        import ctypes
+
+        co_initialize = ctypes.windll.ole32.CoInitialize
+        co_initialize(None)
+
+        import clr 
+
+        clr.AddReference('System.Windows.Forms')
+        from System.Windows.Forms import OpenFileDialog
+                                
+        file_dialog = OpenFileDialog()
+        ret = file_dialog.ShowDialog()
+        if ret != 1:
+            print("Cancelled")
+            sys.exit()
+        return file_dialog.FileName
+
+    else:  # posix/linux/macos, use tkinter
+        return tk_get_file_path()
 
 file_path = file_path()
 
