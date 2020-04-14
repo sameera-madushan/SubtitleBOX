@@ -17,6 +17,15 @@ $ cd SubtitleBOX
 # install the requirements
 $ pip3 install -r requirements.txt
 ```
+### (OSX/Linux only) Install tkinter
+If you are running python 3.7 or later, nothing has to be done. Earlier python3 versions require installation.
+```
+# Debian/Ubuntu
+$ sudo apt install python3-tk
+
+# macOS
+# Follow the instructions on https://tkdocs.com/tutorial/install.html
+```
 
 ## Usage
 
