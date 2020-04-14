@@ -10,7 +10,6 @@ import ctypes
 import clr 
 from System.Windows.Forms import OpenFileDialog
 
-
 banner = r'''
      ___     ___     ___   __  __  
     / __|   | _ )   / _ \  \ \/ /  
@@ -67,7 +66,7 @@ def create_url():
     url = "http://api.thesubdb.com/?action=search&hash={}".format(film_hash)
     return url
 
-def request_subtitile():
+def request_subtitle():
     url = create_url()
     header = { "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)" }
     req = requests.get(url, headers=header)
@@ -84,7 +83,7 @@ def request_subtitile():
         print("Oops!! Subtitle not found.")
         exit()
 
-request_subtitile()
+request_subtitle()
 
 def download(data):
     filename = file_path[:-4]
