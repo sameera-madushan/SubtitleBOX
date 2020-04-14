@@ -1,0 +1,3 @@
+pythonnet==2.4.0
+requests==2.20.1
+
