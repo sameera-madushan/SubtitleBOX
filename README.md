@@ -7,7 +7,7 @@ Please Note: Subtitle file will be downloaded in to the same folder as the corre
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/55880211/79194420-21ebc280-7e4a-11ea-84b2-f155d43dcd0a.gif)
 
 ### Requirements
-* Windows
+* Microsoft Windows
 * Python 3
 * git
 
