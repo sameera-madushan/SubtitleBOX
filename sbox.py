@@ -8,6 +8,7 @@ import requests
 import platform
 import sys
 from pathlib import Path
+from os import path
 
 
 def tk_get_file_path():
@@ -89,22 +90,22 @@ def create_url(file_path):
     return url
 
 
-def request_subtitle(file_path):
+def request_subtitle_languages(file_path):
     url = create_url(file_path)
     header = { "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)" }
     req = requests.get(url, headers=header)
     if req.status_code == 200:
         k = req.content.decode('utf-8')
-        global l 
-        l = k.split(",")
+        available_languages = k.split(",")
         print("\nSubtitle files are available in following languages...\n")
-        for i in l:
+        for i in available_languages:
             for k,v in languages.items():
                 if i == k:
                     print("     " + k + " (" + v + ")")
+        return available_languages
     else:
         print("Oops!! Subtitle not found.")
-        exit()
+        sys.exit()
 
 
 def download(file_path, data):
@@ -129,21 +130,27 @@ def main(cli_file_path, language_code_cli):
     print(banner)
     time.sleep(1)
 
-    if cli_file_path == "":
+    # If no file path was given as CLI argument, show the dialog window and ask for a file.
+    if cli_file_path is None:
         file_path = get_file_path()
     else:
         file_path = cli_file_path
+        if not path.exists(cli_file_path):
+            print("File does not exist.")
+            sys.exit()
 
-    request_subtitle(file_path)
-    if language_code_cli == "":
-        select_language = input("\nChoose your language (Please use language codes): ").lower()
+    available_languages = request_subtitle_languages(file_path)
+
+    # If no language code was given as CLI argument, ask it to the user
+    if language_code_cli is None:
+        selected_language = input("\nChoose your language (Please use language codes): ").lower()
     else:
-        select_language = language_code_cli
+        selected_language = language_code_cli
 
-    if select_language in l:
+    if selected_language in available_languages:
         url = create_url(file_path)
         search = re.sub(r'search', "download", url)
-        final_url = search + "&language={}".format(select_language)
+        final_url = search + "&language={}".format(selected_language)
         header = { "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)" }
         req = requests.get(final_url, headers=header)
         if req.status_code == 200:
@@ -158,9 +165,9 @@ def main(cli_file_path, language_code_cli):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='SubtitleBOX CLI')
-    parser.add_argument("--file_path", default="",
+    parser.add_argument("-f", "--file_path",
                         help="Path of the video file for which subtitles should be looked for")
-    parser.add_argument("--language_code", default="",
+    parser.add_argument("-lang", "--language_code",
                         help="Language code for subtitles. Can be en, es, fr, it, nl, pl, pt, ro, sv, tr")
 
     args = parser.parse_args()
