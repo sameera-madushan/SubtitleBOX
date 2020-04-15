@@ -7,6 +7,8 @@ import hashlib
 import requests
 import platform
 import sys
+from pathlib import Path
+
 
 banner = r'''
      ___     ___     ___   __  __  
@@ -44,7 +46,6 @@ def tk_get_file_path():
 
 # got this from https://stackoverflow.com/a/58861718/13276219
 def file_path():
-  
     # Get operating system
     operating_system = platform.system()
 
@@ -68,6 +69,7 @@ def file_path():
 
     else:  # posix/linux/macos, use tkinter
         return tk_get_file_path()
+
 
 file_path = file_path()
 
@@ -98,7 +100,7 @@ def create_url():
     url = "http://api.thesubdb.com/?action=search&hash={}".format(film_hash)
     return url
 
-def request_subtitle():
+def request_subtitile():
     url = create_url()
     header = { "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)" }
     req = requests.get(url, headers=header)
@@ -115,13 +117,14 @@ def request_subtitle():
         print("Oops!! Subtitle not found.")
         exit()
 
-request_subtitle()
-
 def download(data):
-    filename = file_path[:-4]
-    with open(filename + ".srt", 'wb') as f:
+    # from https://www.reddit.com/user/panzerex/
+    filename = Path(file_path).with_suffix('.srt')
+    with open(filename, 'wb') as f:
         f.write(data)
     f.close()
+
+request_subtitile()
 
 while True:
     try:
@@ -146,6 +149,4 @@ while True:
     except KeyboardInterrupt:
         print("\nProgramme Interrupted")
         break
-        
-
         
