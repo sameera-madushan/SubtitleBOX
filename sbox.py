@@ -5,35 +5,25 @@ import re
 import time
 import hashlib
 import requests
-import platform
 import sys
 from pathlib import Path
 from os import path
-import numpy as np
+from tkinter import Tk, filedialog
 
 
 def tk_get_file_path():
-    try:
-        import tkinter as tk
-        from tkinter import filedialog
-    except:
-        print("Error: tkinter is not installed/available. Please install and try again")
-        sys.exit()
-
-    root = tk.Tk()
+    root = Tk()
     root.withdraw()
-    files = filedialog.askopenfilenames(parent=root,title='Choose a file')
-    files_path = root.tk.splitlist(files)
+    file_path = filedialog.askopenfilename()
 
     try:
-        for file_path in files_path:
-            with open(file_path, 'r') as f:
-                pass
+        with open(file_path, 'r') as f:
+            pass
     except:
         print("Cancelled")
         sys.exit()
 
-    return files_path
+    return file_path
 
 
 languages = {
@@ -48,7 +38,6 @@ languages = {
     "sv" : "Swedish",
     "tr" : "Turkish"
 }
-lang = list(languages.keys())
 
 
 def get_hash(name):
@@ -74,6 +63,11 @@ def request_subtitle_languages(file_path):
     if req.status_code == 200:
         k = req.content.decode('utf-8')
         available_languages = k.split(",")
+        print("\nSubtitle files are available in following languages...\n")
+        for i in available_languages:
+            for k,v in languages.items():
+                if i == k:
+                    print("     " + k + " (" + v + ")")
         return available_languages
     else:
         print("Oops!! Subtitle not found.")
@@ -104,36 +98,14 @@ def main(cli_file_path, language_code_cli):
 
     # If no file path was given as CLI argument, show the dialog window and ask for a file.
     if cli_file_path is None:
-        files_path = tk_get_file_path()
+        file_path = tk_get_file_path()
     else:
-        files_path = (cli_file_path,)
+        file_path = cli_file_path
         if not path.exists(cli_file_path):
             print("File does not exist.")
             sys.exit()
 
-    all_available_languages=[]
-    for file_path in files_path:
-        all_available_languages.append(request_subtitle_languages(file_path))
-
-    # Check, which languages appears in all episodes
-    availability_in_all = []
-    for _lang in lang:
-        availability_in_all.append(all((_lang in x) for x in all_available_languages))
-    available_languages = np.asarray(lang)[availability_in_all]
-
-    
-    try:
-        if len(files_path)==1: 
-            print("\nSubtitle file are available in following languages...\n")
-        elif len(files_path)>1:
-            print("\nSubtitle file for all selected files are available in following languages...\n")
-    except:
-        print("\nError\n")
-
-    for i in available_languages:
-        for k,v in languages.items():
-            if i == k:
-                print("     " + k + " (" + v + ")")
+    available_languages = request_subtitle_languages(file_path)
 
     # If no language code was given as CLI argument, ask it to the user
     if language_code_cli is None:
@@ -142,18 +114,17 @@ def main(cli_file_path, language_code_cli):
         selected_language = language_code_cli
 
     if selected_language in available_languages:
-        for index, file_path in enumerate(files_path):
-            url = create_url(file_path)
-            search = re.sub(r'search', "download", url)
-            final_url = search + "&language={}".format(selected_language)
-            header = { "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)" }
-            req = requests.get(final_url, headers=header)
-            if req.status_code == 200:
-                data = req.content
-                download(file_path=file_path, data=data)
-                print(f"\n{index+1}/{len(files_path)} Subtitle downloaded successfully")
-            else:
-                print("\nUnknown Error")
+        url = create_url(file_path)
+        search = re.sub(r'search', "download", url)
+        final_url = search + "&language={}".format(selected_language)
+        header = { "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)" }
+        req = requests.get(final_url, headers=header)
+        if req.status_code == 200:
+            data = req.content
+            download(file_path=file_path, data=data)
+            print("\nSubtitle downloaded successfully")
+        else:
+            print("\nUnknown Error")
     else:
         print("\nInvalid language code selected. Please try again.")
 
@@ -168,6 +139,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args.file_path, args.language_code)
-
-
-
