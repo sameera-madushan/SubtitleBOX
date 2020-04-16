@@ -62,6 +62,7 @@ Thanks goes to these wonderful people. :heart:
 <table>
   <tr>
     <td align="center"><a href="https://github.com/JonathanPartain"><img src="https://avatars0.githubusercontent.com/u/12885700?s=400&u=242fea5b8de20586e1ae174056b7aa9fc04d95d6&v=4" width="100px;" alt=""/><br /><sub><b>Jonathan Partain</b></sub></a></td>
-        <td align="center"><a href="https://github.com/AlexMV12"><img src="https://avatars1.githubusercontent.com/u/36054651?s=400&v=4" width="100px;" alt=""/><br /><sub><b>Alessandro Falcetta</b></sub></a></td>
+    <td align="center"><a href="https://github.com/AlexMV12"><img src="https://avatars1.githubusercontent.com/u/36054651?s=400&v=4" width="100px;" alt=""/><br /><sub><b>Alessandro Falcetta</b></sub></a></td>
+    <td align="center"><a href="https://github.com/DarkCeptor44"><img src="https://avatars2.githubusercontent.com/u/16278483?s=400&u=1ebc14a87bd6f2e4df0cb1ff90f178cb1ea1beef&v=4" width="100px;" alt=""/><br /><sub><b>Murilo Pagliuso</b></sub></a></td>
 
 </table>
