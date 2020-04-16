@@ -1,0 +1,59 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-04-16 23:41+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: sbox.py:26
+msgid "Cancelled"
+msgstr ""
+
+#: sbox.py:69
+msgid "Subtitle files are available in following languages..."
+msgstr ""
+
+#: sbox.py:76
+msgid "Oops!! Subtitle not found."
+msgstr ""
+
+#: sbox.py:108
+msgid "File does not exist."
+msgstr ""
+
+#: sbox.py:115
+msgid "Choose your language (Please use language codes): "
+msgstr ""
+
+#: sbox.py:128
+msgid "Subtitle downloaded successfully"
+msgstr ""
+
+#: sbox.py:130
+msgid "Unknown Error"
+msgstr ""
+
+#: sbox.py:132
+msgid "Invalid language code selected. Please try again."
+msgstr ""
+
+#: sbox.py:138
+msgid "Path of the video file for which subtitles should be looked for"
+msgstr ""
+
+#: sbox.py:140
+msgid "Language code for subtitles. Can be en, es, fr, it, nl, pl, pt, ro, sv, tr"
+msgstr ""
+
