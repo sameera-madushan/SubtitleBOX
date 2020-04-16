@@ -20,23 +20,26 @@ def tk_get_file_path():
         with open(file_path, 'r') as f:
             pass
     except:
-        print("Cancelled")
+        print("Reddedildi!")
+        ## if user did not selected a file
+        print("\nDosya seçilmedi") 
         sys.exit()
+       
 
     return file_path
 
 
 languages = {
-    "en" : "English",
-    "es" : "Spanish",
-    "fr" : "French",
-    "it" : "Italian",
-    "nl" : "Dutch",
-    "pl" : "Polish",
-    "pt" : "Portuguese",
-    "ro" : "Romanian",
-    "sv" : "Swedish",
-    "tr" : "Turkish"
+    "en" : "İngilizce",
+    "es" : "İspanyolca",
+    "fr" : "Fransızca",
+    "it" : "İtalyanca",
+    "nl" : "Flemenkçe",
+    "pl" : "Lehçe",
+    "pt" : "Portekizce",
+    "ro" : "Rumence",
+    "sv" : "İsveççe",
+    "tr" : "Türkçe"
 }
 
 
@@ -63,14 +66,15 @@ def request_subtitle_languages(file_path):
     if req.status_code == 200:
         k = req.content.decode('utf-8')
         available_languages = k.split(",")
-        print("\nSubtitle files are available in following languages...\n")
+        print("\nAltyazi dosyasi alttaki dillerde mevcuttur: \n")
+        print("\nİndirmek içi: \n")
         for i in available_languages:
             for k,v in languages.items():
                 if i == k:
                     print("     " + k + " (" + v + ")")
         return available_languages
     else:
-        print("Oops!! Subtitle not found.")
+        print("Tüh!! Altyazi bulunamadi")
         sys.exit()
 
 
@@ -90,7 +94,7 @@ def main(cli_file_path, language_code_cli):
         |___/   |___/   \___/  /_/\_\  
         _|"""""|_|"""""|_|"""""|_|"""""| 
         "`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'  
-                 Subtitles BOX    
+                 Subtitles BOX
     '''
 
     print(banner)
@@ -102,14 +106,14 @@ def main(cli_file_path, language_code_cli):
     else:
         file_path = cli_file_path
         if not path.exists(cli_file_path):
-            print("File does not exist.")
+            print("Dosya mevcut değil.")
             sys.exit()
 
     available_languages = request_subtitle_languages(file_path)
 
     # If no language code was given as CLI argument, ask it to the user
     if language_code_cli is None:
-        selected_language = input("\nChoose your language (Please use language codes): ").lower()
+        selected_language = input("\nİndirmek istediğiniz dili seçiniz (Lütfen dilin kısaltmasını kullanınınız. Ör: en,tr..): ").lower()
     else:
         selected_language = language_code_cli
 
@@ -122,19 +126,19 @@ def main(cli_file_path, language_code_cli):
         if req.status_code == 200:
             data = req.content
             download(file_path=file_path, data=data)
-            print("\nSubtitle downloaded successfully")
+            print("\nBaşarıyla İndirildi")
         else:
-            print("\nUnknown Error")
+            print("\nBilinmeyen Hata")
     else:
-        print("\nInvalid language code selected. Please try again.")
+        print("\nGeçersiz dil kodu seçildi. Lütfen tekrar deneyiniz!")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='SubtitleBOX CLI')
     parser.add_argument("-f", "--file_path",
-                        help="Path of the video file for which subtitles should be looked for")
+                        help="Altyazıların aranması gereken video dosyasının konumu")
     parser.add_argument("-lang", "--language_code",
-                        help="Language code for subtitles. Can be en, es, fr, it, nl, pl, pt, ro, sv, tr")
+                        help="Altyazilar için diller : en, es, fr, it, nl, pl, pt, ro, sv, tr")
 
     args = parser.parse_args()
 
