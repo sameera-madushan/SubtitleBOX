@@ -18,6 +18,9 @@ def tk_get_file_path():
     
     file_path = root.tk.splitlist(
         filedialog.askopenfilenames(parent=root, title='Choose a file'))
+    if not file_path:
+        print("Cancelled")
+        sys.exit()
 
     try:
         for file in file_path:
@@ -167,4 +170,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args.file_path, args.language_code)
-
