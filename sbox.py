@@ -26,7 +26,7 @@ def tk_get_file_path():
         for file in file_path:
             with open(file, 'r') as f:
                 pass
-    except:
+    except IOError:
         print("Cancelled")
         sys.exit()
 
@@ -51,7 +51,6 @@ lang = list(languages.keys())
 def get_hash(name):
     readsize = 64 * 1024
     with open(name, 'rb') as f:
-        size = os.path.getsize(name)
         data = f.read(readsize)
         f.seek(-readsize, os.SEEK_END)
         data += f.read(readsize)
@@ -66,8 +65,7 @@ def create_url(file_path):
 
 def request_subtitle_languages(file_path):
     url = create_url(file_path)
-    header = {
-        "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)"}
+    header = {"user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)"}
     req = requests.get(url, headers=header)
     if req.status_code == 200:
         k = req.content.decode('utf-8')
