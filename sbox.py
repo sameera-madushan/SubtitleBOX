@@ -74,8 +74,8 @@ def request_subtitle_languages(file_path):
         available_languages = k.split(",")
         return available_languages
     else:
-        print("Oops!! Subtitle not found.")
-        sys.exit()
+        available_languages = None
+        return available_languages
 
 
 def download(file_path, data):
@@ -84,6 +84,47 @@ def download(file_path, data):
     with open(filename, 'wb') as f:
         f.write(data)
     f.close()
+
+
+def existence_of_subtitles_regarding_selected_files(files_path):
+    all_available_languages_selection = []
+    for file_path in files_path:
+        try:
+            all_available_languages_selection.append(
+                request_subtitle_languages(file_path))
+        except:
+            print("\nThe selected file cannot be used to find subtitles:")
+            print(f" x {os.path.basename(file_path)}")
+            print("\nCancelled")
+            sys.exit()
+    return all_available_languages_selection
+
+
+def bool_exsistence_of_subtitile_regarding_seleceted_files(all_available_languages_selection):
+    bool_find_subtitiles = np.ones(
+        len(all_available_languages_selection), dtype=bool)
+    loc_none = []
+    if None in all_available_languages_selection:
+        loc_none = [i for i, x in enumerate(
+            all_available_languages_selection) if x == None]
+        bool_find_subtitiles[loc_none] = False
+    return bool_find_subtitiles, loc_none
+
+
+def select_files_with_subtitles(all_files, bool_loc):
+    return np.asarray(all_files)[bool_loc]
+
+
+def common_languages_appearing_in_all_files(all_available_languages_selection, lang):
+    availability_in_all_files = []
+    if all_available_languages_selection.size>0:
+        for _lang in lang:
+            availability_in_all_files.append(all((_lang in x)
+                                                for x in all_available_languages_selection))
+        return np.asarray(lang)[availability_in_all_files]
+    else:
+        print("There is no common language available for the selected files.")
+        sys.exit()
 
 
 def main(cli_file_path, language_code_cli):
@@ -109,23 +150,36 @@ def main(cli_file_path, language_code_cli):
             print("File does not exist.")
             sys.exit()
 
+    # Check, which files do and do not have subtitle file
+    all_available_languages_full = existence_of_subtitles_regarding_selected_files(
+        files_path)
+    find_subtitiles, loc_none = bool_exsistence_of_subtitile_regarding_seleceted_files(
+        all_available_languages_full)
     # Check, which languages appears in all requested episodes
-    all_available_languages = []
-    for file_path in files_path:
-        all_available_languages.append(request_subtitle_languages(file_path))
+    all_available_languages = select_files_with_subtitles(
+        all_available_languages_full, find_subtitiles)
+    available_languages = common_languages_appearing_in_all_files(
+        all_available_languages, lang)
 
-    availability_in_all = []
-    for _lang in lang:
-        availability_in_all.append(all((_lang in x)
-                                       for x in all_available_languages))
-    available_languages = np.asarray(lang)[availability_in_all]
+    if False in find_subtitiles:
+        print("\nSubtitle file is not available for following files:\n")
+        for i in loc_none:
+            print(f" x {os.path.basename(files_path[i])}")
+        if True in find_subtitiles:
+            print("________________________________________________________")
+
+    files_path = select_files_with_subtitles(files_path, find_subtitiles)
+
+    print("\nSubtitles are available for following files:\n")
+    for file in files_path:
+        print(f" - {os.path.basename(file)}")
 
     try:
         if len(files_path) == 1:
-            print("\nSubtitle file are available in following languages...\n")
+            print("\nSubtitles are available in following languages...\n")
         elif len(files_path) > 1:
             print(
-                "\nSubtitle file for all selected files are available in following languages...\n")
+                "\nSubtitles for all selected files are available in following languages...\n")
     except:
         print("\nError\n")
 
