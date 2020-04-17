@@ -12,8 +12,11 @@ from pathlib import Path
 from os import path
 from tkinter import Tk, filedialog
 
-user_locale = locale.getdefaultlocale()[0]
-lang = gettext.translation('messages', localedir='locales', languages=[user_locale])
+try:
+    user_locale = locale.getdefaultlocale()[0]
+    lang = gettext.translation('messages', localedir='locales', languages=[user_locale])
+except FileNotFoundError:
+    lang = gettext.translation('messages', localedir='locales', languages=["en_US"])
 lang.install()
 _ = lang.gettext
 
