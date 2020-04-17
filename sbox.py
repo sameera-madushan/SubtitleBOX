@@ -198,8 +198,7 @@ def main(cli_file_path, language_code_cli):
             url = create_url(file_path)
             search = re.sub(r'search', "download", url)
             final_url = search + "&language={}".format(selected_language)
-            header = {
-                "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)"}
+            header = {"user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)"}
             req = requests.get(final_url, headers=header)
             if req.status_code == 200:
                 data = req.content
