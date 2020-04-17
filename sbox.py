@@ -17,9 +17,9 @@ def tk_get_file_path():
     file_path = filedialog.askopenfilename()
 
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r'):
             pass
-    except:
+    except IOError:
         print("Cancelled")
         sys.exit()
 
@@ -27,23 +27,22 @@ def tk_get_file_path():
 
 
 languages = {
-    "en" : "English",
-    "es" : "Spanish",
-    "fr" : "French",
-    "it" : "Italian",
-    "nl" : "Dutch",
-    "pl" : "Polish",
-    "pt" : "Portuguese",
-    "ro" : "Romanian",
-    "sv" : "Swedish",
-    "tr" : "Turkish"
+    "en": "English",
+    "es": "Spanish",
+    "fr": "French",
+    "it": "Italian",
+    "nl": "Dutch",
+    "pl": "Polish",
+    "pt": "Portuguese",
+    "ro": "Romanian",
+    "sv": "Swedish",
+    "tr": "Turkish"
 }
 
 
 def get_hash(name):
     readsize = 64 * 1024
     with open(name, 'rb') as f:
-        size = os.path.getsize(name)
         data = f.read(readsize)
         f.seek(-readsize, os.SEEK_END)
         data += f.read(readsize)
@@ -58,14 +57,14 @@ def create_url(file_path):
 
 def request_subtitle_languages(file_path):
     url = create_url(file_path)
-    header = { "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)" }
+    header = {"user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)"}
     req = requests.get(url, headers=header)
     if req.status_code == 200:
         k = req.content.decode('utf-8')
         available_languages = k.split(",")
         print("\nSubtitle files are available in following languages...\n")
         for i in available_languages:
-            for k,v in languages.items():
+            for k, v in languages.items():
                 if i == k:
                     print("     " + k + " (" + v + ")")
         return available_languages
@@ -117,7 +116,7 @@ def main(cli_file_path, language_code_cli):
         url = create_url(file_path)
         search = re.sub(r'search', "download", url)
         final_url = search + "&language={}".format(selected_language)
-        header = { "user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)" }
+        header = {"user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)"}
         req = requests.get(final_url, headers=header)
         if req.status_code == 200:
             data = req.content
@@ -139,6 +138,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args.file_path, args.language_code)
-
-
-
