@@ -1,29 +1,40 @@
 # coded by sameera madushan
-import argparse
+
 import os
 import re
-import time
-import hashlib
-import requests
 import sys
-import gettext
+import time
 import locale
-from pathlib import Path
-from os import path
-from tkinter import Tk, filedialog
+import hashlib
+import gettext
+import requests
+import argparse
 import numpy as np
+from os import path
+from pathlib import Path
+from tkinter import Tk, filedialog
 
-############################## ANNULLA
-# try:
-#     user_locale = locale.getdefaultlocale()[0]
-#     lang = gettext.translation('messages', localedir='locales', languages=[user_locale])
-# except FileNotFoundError:
-lang = gettext.translation('messages', localedir='locales', languages=["en_US"])
-lang.install()
-_ = lang.gettext
+try:
+    user_locale = locale.getdefaultlocale()[0]
+    lang = gettext.translation('messages', localedir='locales', languages=[user_locale])
+    lang.install()
+    _ = lang.gettext
+except FileNotFoundError:
+    lang = gettext.translation('messages', localedir='locales', languages=["en_US"])
+    lang.install()
+    _ = lang.gettext
 
 
 def tk_get_file_path():
+    """
+    This function will ask the user for the movie file/s and return the 
+    file path/s of them. Tkinter module is used to show the File dialog. 
+    
+    Parameters
+    ----------
+    None
+    """
+
     root = Tk()
     root.withdraw()
     
@@ -60,6 +71,17 @@ lang = list(languages.keys())
 
 
 def get_hash(name):
+    """
+    This function receives the name of the file and returns the hash code
+    Hash is composed by taking the first and the last 64kb of the video file, 
+    putting all together and generating a md5 of the resulting data (128kb).
+
+    Parameters
+        ----------
+        name : str
+            The path of the movie file/s. 
+    """
+
     readsize = 64 * 1024
     with open(name, 'rb') as f:
         data = f.read(readsize)
@@ -69,6 +91,16 @@ def get_hash(name):
 
 
 def create_url(file_path):
+    """
+    This function will append the hash generated in get_hash function
+    to the subtitle search URL and return the URL
+
+    Parameters
+    ----------
+    file_path : str
+        The path of the movie file/s. 
+    """
+
     film_hash = get_hash(name=file_path)
     url = "http://api.thesubdb.com/?action=search&hash={}".format(film_hash)
     return url
@@ -80,15 +112,12 @@ def request_subtitle_languages(file_path):
     subs are available for a file.
     Return None is no subs are available.
 
-    Es.
-    If for the given file there exist subtitles in english and italian,
-    return the list: ["english", "italian"]
-
     Parameters
     ----------
        file_path : str
-           The path of the file for which subs should be found.
+           The path of the file/s for which sub/s should be found.
     """
+
     url = create_url(file_path)
     header = {"user-agent": "SubDB/1.0 (SubtitleBOX/1.0; https://github.com/sameera-madushan/SubtitleBOX.git)"}
     req = requests.get(url, headers=header)
@@ -102,7 +131,21 @@ def request_subtitle_languages(file_path):
 
 
 def download(file_path, data):
-    # from https://www.reddit.com/user/panzerex/
+    """
+    This function download the subtitle file from SubDB database.
+    Filename of the subtitle file will be same as the movie name and append '.srt' extention at the end.
+
+    Pythonic approach for filename generation is by https://www.reddit.com/user/panzerex/
+
+    Parameters
+    ----------
+       file_path : str
+           The path of the file/s for which sub/s should be found.
+           
+        data : bytes
+            Binary data of the subtitle file.
+    """
+
     filename = Path(file_path).with_suffix('.srt')
     with open(filename, 'wb') as f:
         f.write(data)
@@ -124,6 +167,7 @@ def check_existence_of_subtitles(files_path):
            The path containing all the files for which subs should
            be found.
     """
+
     all_available_languages_selection = []
     for file_path in files_path:
         try:
@@ -134,7 +178,6 @@ def check_existence_of_subtitles(files_path):
             print(f" x {os.path.basename(file_path)}")
             print(_("Cancelled"))
             sys.exit()
-    print(all_available_languages_selection)
     return all_available_languages_selection
 
 
@@ -191,6 +234,7 @@ def main(cli_file_path, language_code_cli):
     # Check, which files do and do not have subtitle file
     files_with_available_subs = check_existence_of_subtitles(files_path)
     find_subtitles, loc_none = bool_existence_of_subtitles_regarding_selected_files(files_with_available_subs)
+
     # Check, which languages appears in all requested episodes
     all_available_languages = select_files_with_subtitles(
         files_with_available_subs, find_subtitles)
@@ -199,29 +243,35 @@ def main(cli_file_path, language_code_cli):
 
     if False in find_subtitles:
         print(_("Subtitle file is not available for following files:"))
+        print("\n", end="")
         for i in loc_none:
             print(f" x {os.path.basename(files_path[i])}")
         if True in find_subtitles:
-            print("________________________________________________________")
+            print("________________________________________________________\n")
 
     files_path = select_files_with_subtitles(files_path, find_subtitles)
 
     print(_("Subtitles are available for following files:"))
+    print("\n", end="")
     for file in files_path:
         print(f" - {os.path.basename(file)}")
+    print("\n", end="")
 
     try:
         if len(files_path) == 1:
             print(_("Subtitles are available in following languages..."))
+            print("\n", end="")
         elif len(files_path) > 1:
             print(_("Subtitles for all selected files are available in following languages..."))
+            print("\n", end="")
     except:
         print(_("Error"))
 
     for i in available_languages:
         for k, v in languages.items():
             if i == k:
-                print("     " + k + " (" + v + ")")
+                print("     " + "\u2022" + " " + k + " (" + v + ")")
+    print("\n", end="")
 
     # If no language code was given as CLI argument, ask it to the user
     if language_code_cli is None:
@@ -239,11 +289,14 @@ def main(cli_file_path, language_code_cli):
             if req.status_code == 200:
                 data = req.content
                 download(file_path=file_path, data=data)
-                print(f"\n{index+1}/{len(files_path)}" + _("Subtitle downloaded successfully"))
+                print(f"\n{index+1}/{len(files_path)}" + " " + _("Subtitle downloaded successfully"))
             else:
+                print("\n", end="")
                 print(_("Unknown Error"))
     else:
+        print("\n", end="")
         print(_("Invalid language code selected. Please try again."))
+
 
 
 if __name__ == "__main__":
