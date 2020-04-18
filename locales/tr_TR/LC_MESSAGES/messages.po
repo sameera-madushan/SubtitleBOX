@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 23:41+0200\n"
+"POT-Creation-Date: 2020-04-18 15:36+0200\n"
 "PO-Revision-Date: 2020-04-16 23:27+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: tr_TR\n"
@@ -18,45 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: sbox.py:26
+#: sbox.py:32 sbox.py:40 sbox.py:106
 msgid "Cancelled"
 msgstr "Reddedildi!"
 
-#: sbox.py:69
-msgid "Subtitle files are available in following languages..."
-msgstr "Altyazi dosyasi alttaki dillerde mevcuttur..."
+#: sbox.py:104
+msgid "The selected file cannot be used to find subtitles:"
+msgstr "The selected file cannot be used to find subtitles:""
 
-#: sbox.py:76
-msgid "Oops!! Subtitle not found."
-msgstr "Tüh!! Altyazi bulunamadi"
+#: sbox.py:134
+msgid "There is no common language available for the selected files."
+msgstr "There is no common language available for the selected files."
 
-#: sbox.py:108
+#: sbox.py:158
 msgid "File does not exist."
 msgstr "Dosya mevcut değil."
 
-#: sbox.py:115
-msgid "Choose your language (Please use language codes): "
-msgstr ""
-"İndirmek istediğiniz dili seçiniz (Lütfen dilin kısaltmasını "
-"kullanınınız. Ör: en,tr.."
+#: sbox.py:173
+msgid "Subtitle file is not available for following files:"
+msgstr "Subtitle file is not available for following files:"
 
-#: sbox.py:128
+#: sbox.py:181
+msgid "Subtitles are available for following files:"
+msgstr "Subtitles are available for following files:"
+
+#: sbox.py:187
+msgid "Subtitles are available in following languages..."
+msgstr "Subtitles are available in following languages..."
+
+#: sbox.py:189
+msgid "Subtitles for all selected files are available in following languages..."
+msgstr "Subtitles for all selected files are available in following languages..."
+
+#: sbox.py:191
+msgid "Error"
+msgstr "Error"
+
+#: sbox.py:200
+msgid "Choose your language (Please use language codes): "
+msgstr "İndirmek istediğiniz dili seçiniz (Lütfen dilin kısaltmasını "
+
+#: sbox.py:214
 msgid "Subtitle downloaded successfully"
 msgstr "Başarıyla İndirildi"
 
-#: sbox.py:130
+#: sbox.py:216
 msgid "Unknown Error"
 msgstr "Bilinmeyen Hata"
 
-#: sbox.py:132
+#: sbox.py:218
 msgid "Invalid language code selected. Please try again."
 msgstr "Geçersiz dil kodu seçildi. Lütfen tekrar deneyiniz!"
 
-#: sbox.py:138
+#: sbox.py:224
 msgid "Path of the video file for which subtitles should be looked for"
 msgstr "Altyazıların aranması gereken video dosyasının konumu"
 
-#: sbox.py:140
+#: sbox.py:226
 msgid "Language code for subtitles. Can be en, es, fr, it, nl, pl, pt, ro, sv, tr"
 msgstr "Altyazilar için diller : en, es, fr, it, nl, pl, pt, ro, sv, tr"
+
+#~ msgid "Subtitle files are available in following languages..."
+#~ msgstr "Altyazi dosyasi alttaki dillerde mevcuttur..."
+
+#~ msgid "Oops!! Subtitle not found."
+#~ msgstr "Tüh!! Altyazi bulunamadi"
 

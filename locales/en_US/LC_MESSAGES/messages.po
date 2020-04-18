@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 23:41+0200\n"
+"POT-Creation-Date: 2020-04-18 15:36+0200\n"
 "PO-Revision-Date: 2020-04-16 23:26+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -18,43 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: sbox.py:26
+#: sbox.py:32 sbox.py:40 sbox.py:106
 msgid "Cancelled"
 msgstr "Cancelled"
 
-#: sbox.py:69
-msgid "Subtitle files are available in following languages..."
-msgstr "Subtitle files are available in following languages..."
+#: sbox.py:104
+msgid "The selected file cannot be used to find subtitles:"
+msgstr "The selected file cannot be used to find subtitles:"
 
-#: sbox.py:76
-msgid "Oops!! Subtitle not found."
-msgstr "Oops!! Subtitle not found."
+#: sbox.py:134
+msgid "There is no common language available for the selected files."
+msgstr "There is no common language available for the selected files."
 
-#: sbox.py:108
+#: sbox.py:158
 msgid "File does not exist."
 msgstr "File does not exist."
 
-#: sbox.py:115
+#: sbox.py:173
+msgid "Subtitle file is not available for following files:"
+msgstr "Subtitle file is not available for following files:"
+
+#: sbox.py:181
+msgid "Subtitles are available for following files:"
+msgstr "Subtitles are available for following files:"
+
+#: sbox.py:187
+msgid "Subtitles are available in following languages..."
+msgstr "Subtitles are available in following languages..."
+
+#: sbox.py:189
+msgid "Subtitles for all selected files are available in following languages..."
+msgstr "Subtitles for all selected files are available in following languages..."
+
+#: sbox.py:191
+msgid "Error"
+msgstr "Error"
+
+#: sbox.py:200
 msgid "Choose your language (Please use language codes): "
 msgstr "Choose your language (Please use language codes): "
 
-#: sbox.py:128
+#: sbox.py:214
 msgid "Subtitle downloaded successfully"
 msgstr "Subtitle downloaded successfully"
 
-#: sbox.py:130
+#: sbox.py:216
 msgid "Unknown Error"
 msgstr "Unknown Error"
 
-#: sbox.py:132
+#: sbox.py:218
 msgid "Invalid language code selected. Please try again."
 msgstr "Invalid language code selected. Please try again."
 
-#: sbox.py:138
+#: sbox.py:224
 msgid "Path of the video file for which subtitles should be looked for"
 msgstr "Path of the video file for which subtitles should be looked for"
 
-#: sbox.py:140
+#: sbox.py:226
 msgid "Language code for subtitles. Can be en, es, fr, it, nl, pl, pt, ro, sv, tr"
 msgstr "Language code for subtitles. Can be en, es, fr, it, nl, pl, pt, ro, sv, tr"
+
+#~ msgid "Subtitle files are available in following languages..."
+#~ msgstr "Subtitle files are available in following languages..."
+
+#~ msgid "Oops!! Subtitle not found."
+#~ msgstr "Oops!! Subtitle not found."
 
