@@ -70,5 +70,6 @@ Thanks goes to these wonderful people. :heart:
     <td align="center"><a href="https://github.com/AlexMV12"><img src="https://avatars1.githubusercontent.com/u/36054651?s=400&v=4" width="100px;" alt=""/><br /><sub><b>Alessandro Falcetta</b></sub></a></td>
     <td align="center"><a href="https://github.com/DarkCeptor44"><img src="https://avatars2.githubusercontent.com/u/16278483?s=400&u=1ebc14a87bd6f2e4df0cb1ff90f178cb1ea1beef&v=4" width="100px;" alt=""/><br /><sub><b>Murilo Pagliuso</b></sub></a></td>
     <td align="center"><a href="https://github.com/mihakodric"><img src="https://avatars0.githubusercontent.com/u/32506231?s=400&v=4" width="100px;" alt=""/><br /><sub><b>mihakodric</b></sub></a></td>
+    <td align="center"><a href="https://github.com/NBrown140"><img src="https://avatars1.githubusercontent.com/u/9956767?s=400&u=e4f68c09d01d986fa133a713ce4e8013c68db3a2&v=4" width="100px;" alt=""/><br /><sub><b>Nicolas Brown</b></sub></a></td>
 
 </table>
