@@ -29,7 +29,7 @@ def tk_get_file_path():
     """
     This function will ask the user for the movie file/s and return the 
     file path/s of them. Tkinter module is used to show the File dialog. 
-    
+
     Parameters
     ----------
     None
@@ -37,7 +37,7 @@ def tk_get_file_path():
 
     root = Tk()
     root.withdraw()
-    
+
     file_path = root.tk.splitlist(
         filedialog.askopenfilenames(parent=root, title='Choose a file'))
     if not file_path:
@@ -141,7 +141,7 @@ def download(file_path, data):
     ----------
        file_path : str
            The path of the file/s for which sub/s should be found.
-           
+
         data : bytes
             Binary data of the subtitle file.
     """
@@ -158,8 +158,10 @@ def check_existence_of_subtitles(files_path):
     file in files_path.
 
     If a file is not a video file or is corrupted, abort and exit.
-
-    Otherwise, return a list with the all the
+    Otherwise, returns 3 output parameters:
+        1 - List of all available languages for each selected file.
+        2 - A list of Booleans, True if subtitles for specific file exists and False if not.
+        3 - The sequence number of the file whose subtitles do not exist.
 
     Parameters
     ----------
@@ -169,39 +171,62 @@ def check_existence_of_subtitles(files_path):
     """
 
     all_available_languages_selection = []
-    for file_path in files_path:
+    bool_find_subtitles = np.ones(
+        len(files_path), dtype=bool)
+    loc_none = []
+    for i, file_path in enumerate(files_path):
         try:
-            all_available_languages_selection.append(
-                request_subtitle_languages(file_path))
+            found_languages = request_subtitle_languages(file_path)
+            all_available_languages_selection.append(found_languages)
+            if found_languages == None:
+                loc_none.append(i)
+                bool_find_subtitles[i] = False
         except:
             print(_("The selected file cannot be used to find subtitles:"))
             print(f" x {os.path.basename(file_path)}")
             print(_("Cancelled"))
             sys.exit()
-    return all_available_languages_selection
-
-
-def bool_existence_of_subtitles_regarding_selected_files(all_available_languages_selection):
-    bool_find_subtitles = np.ones(
-        len(all_available_languages_selection), dtype=bool)
-    loc_none = []
-    if None in all_available_languages_selection:
-        loc_none = [i for i, x in enumerate(
-            all_available_languages_selection) if x == None]
-        bool_find_subtitles[loc_none] = False
-    return bool_find_subtitles, loc_none
+    return all_available_languages_selection, bool_find_subtitles, loc_none
 
 
 def select_files_with_subtitles(all_files, bool_loc):
+    """
+    Returns the selected elements from the all_file list that are selected 
+    based on the values of the elements in bool_loc (list of Booleans)
+
+    Parameters
+    ----------
+       all_files : list
+           The path containing all the files for which subs should
+           be found. Or a list of all available languages for each selected file.
+        
+        bool_loc : list
+            List of Booleans, True if subtitles for specific file exists and False if not.
+    """
+
     return np.asarray(all_files)[bool_loc]
 
 
 def get_common_languages_for_all_files(all_available_languages_selection, lang):
+    """
+    This function checks which common languages are available for all selected files.
+    Returns a list of common languages.
+
+    Parameters
+    ----------
+       all_available_languages_selection : list
+           List containing all the languages available for the individual 
+           files for which subtitles exist at all.
+        
+        lang : list
+            List of all language codes that can be found in the database.
+    """
+
     availability_in_all_files = []
-    if all_available_languages_selection.size>0:
+    if all_available_languages_selection.size > 0:
         for _lang in lang:
             availability_in_all_files.append(all((_lang in x)
-                                                for x in all_available_languages_selection))
+                                                 for x in all_available_languages_selection))
         return np.asarray(lang)[availability_in_all_files]
     else:
         print(_("There is no common language available for the selected files."))
@@ -232,8 +257,8 @@ def main(cli_file_path, language_code_cli):
             sys.exit()
 
     # Check, which files do and do not have subtitle file
-    files_with_available_subs = check_existence_of_subtitles(files_path)
-    find_subtitles, loc_none = bool_existence_of_subtitles_regarding_selected_files(files_with_available_subs)
+    files_with_available_subs, find_subtitles, loc_none = check_existence_of_subtitles(
+        files_path)
 
     # Check, which languages appears in all requested episodes
     all_available_languages = select_files_with_subtitles(
@@ -275,7 +300,8 @@ def main(cli_file_path, language_code_cli):
 
     # If no language code was given as CLI argument, ask it to the user
     if language_code_cli is None:
-        selected_language = input(_("Choose your language (Please use language codes): ")).lower()
+        selected_language = input(
+            _("Choose your language (Please use language codes): ")).lower()
     else:
         selected_language = language_code_cli
 
@@ -289,14 +315,14 @@ def main(cli_file_path, language_code_cli):
             if req.status_code == 200:
                 data = req.content
                 download(file_path=file_path, data=data)
-                print(f"\n{index+1}/{len(files_path)}" + " " + _("Subtitle downloaded successfully"))
+                print(f"\n{index+1}/{len(files_path)}" + " " +
+                      _("Subtitle downloaded successfully"))
             else:
                 print("\n", end="")
                 print(_("Unknown Error"))
     else:
         print("\n", end="")
         print(_("Invalid language code selected. Please try again."))
-
 
 
 if __name__ == "__main__":
