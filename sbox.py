@@ -14,13 +14,14 @@ from os import path
 from pathlib import Path
 from tkinter import Tk, filedialog
 
+locales_path = sys.path[0] + '/locales'
 try:
     user_locale = locale.getdefaultlocale()[0]
-    lang = gettext.translation('messages', localedir='locales', languages=[user_locale])
+    lang = gettext.translation('messages', localedir=locales_path, languages=[user_locale])
     lang.install()
     _ = lang.gettext
 except FileNotFoundError:
-    lang = gettext.translation('messages', localedir='locales', languages=["en_US"])
+    lang = gettext.translation('messages', localedir=locales_path, languages=["en_US"])
     lang.install()
     _ = lang.gettext
 
