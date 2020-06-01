@@ -1,4 +1,5 @@
 # coded by sameera madushan
+#Important: During development and for tests purposes, please use http://sandbox.thesubdb.com/ as the API url.
 
 import os
 import re
