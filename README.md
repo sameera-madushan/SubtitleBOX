@@ -57,6 +57,8 @@ optional arguments:
 - Please ⭐️ this repository if this project helped you!
 - Contributions of any kind welcome!
 
+ <a href="https://www.buymeacoffee.com/sameeramadushan" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
 ## License
 SubtitleBOX is made with ♥ by [@_\_sa_miya__](https://twitter.com/__sa_miya__) and it is released under the MIT license.
 
