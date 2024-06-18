@@ -2,5 +2,5 @@ certifi==2023.7.22
 chardet==3.0.4
 idna==2.9
 requests==2.23.0
-urllib3==1.26.5
+urllib3==1.26.19
 numpy==1.22.0
