@@ -1,3 +1,4 @@
+*This project is archived due to the **SubDB API** being inactive. Thanks to everyone who contributed!*
 # SBOX - Subtitle Box
 
 SBOX is a python script to download subtitles for your movies from [SubDB](http://thesubdb.com/) database using their API. SubDB is a free, centralized subtitle database intended to be used only by opensource and non-commercial softwares. 
